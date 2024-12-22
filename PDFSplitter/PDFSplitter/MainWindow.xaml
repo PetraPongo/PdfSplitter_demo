@@ -1,0 +1,351 @@
+﻿<Window x:Name="PDF_Splitter" x:Class="PDFSplitter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDFSplitter"
+        mc:Ignorable="d"
+        Title="PDF Splitter by Petra" Height="546" Width="900" Background="#FF2E2E2E" WindowStyle="ThreeDBorderWindow" MinWidth="900" MinHeight="550" MaxHeight="547" MaxWidth="900" Foreground="DarkGray">
+    <Grid>
+        <Label x:Name="title" Content="PDF FILE SPLITTER" HorizontalAlignment="Center" Margin="0,36,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="#FFD0D0D0"/>
+        <Label x:Name="program_type" Content="prototype 2.0" HorizontalAlignment="Center" Margin="0,67,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="#FFD8D6D6" Height="31" Width="90" HorizontalContentAlignment="Center" FontSize="10"/>
+        <TextBox x:Name="txtFilePath"
+         HorizontalAlignment="Left"
+         Margin="197,194,0,0"
+         TextWrapping="NoWrap"
+         Text="elérési út..."
+         VerticalAlignment="Top"
+         Width="205"
+         Height="26"
+         VerticalContentAlignment="Center"
+         BorderBrush="Transparent" 
+         Background="Transparent"
+         Foreground="#FFD8D8D8">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TextBox">
+                                <Grid>
+                                    <!-- Alap szövegbeviteli terület -->
+                                    <Border x:Name="Border"
+                                    BorderBrush="Transparent"
+                                    Background="Transparent">
+                                        <ScrollViewer Margin="0" 
+                                              x:Name="PART_ContentHost" />
+                                    </Border>
+
+                                    <!-- Zöld vonal az alján -->
+                                    <Rectangle x:Name="Underline"
+                                       Height="2"
+                                       Fill="#39FF14"
+                                       VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Stretch"
+                                       Visibility="Visible"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <!-- Trigger: fókusznál türkiz vonal -->
+                                    <Trigger Property="IsKeyboardFocused" Value="True">
+                                        <Setter TargetName="Underline" Property="Fill" Value="#02fce7"/>
+                                        <Setter TargetName="Underline" Property="Height" Value="2"/>
+                                    </Trigger>
+                                    <!-- Trigger: ha nincs fókusz -->
+                                    <Trigger Property="IsKeyboardFocused" Value="False">
+                                        <Setter TargetName="Underline" Property="Fill" Value="#39FF14"/>
+                                        <Setter TargetName="Underline" Property="Height" Value="2"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <Label Content="Darabolásra szánt fájl:" HorizontalAlignment="Left" Margin="29,195,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+        <Button x:Name="btnBrowse" Content="TALLÓZÁS" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="110"
+                Height="45"
+                Margin="453,187,0,0" 
+                Click="btnBrowse_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <!-- Háttérszín beállítása alapértelmezetten -->
+                    <Setter Property="Background" Value="#2d6a4f"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+
+                    <!-- Lekerekített szegély -->
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="10" 
+                                        BorderBrush="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- Hover effekt -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#74c69d"/>
+                                    </Trigger>
+                                    <!-- Nyomott állapot -->
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#74c69d"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="btnSplit" Content="PDF SZÉTVÉLASZTÁS" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                Width="150" Height="46" Margin="676,184,0,0" Click="btnSplit_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#FFB84C4C"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="10" 
+                                        BorderBrush="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- Hover effekt -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFCC6666"/>
+                                    </Trigger>
+                                    <!-- Nyomott állapot -->
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#FFE57373"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Label x:Name="processedLabel" Content="0/0 oldal feldolgozva" HorizontalAlignment="Center" Margin="0,472,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.752,0.529" Foreground="White"/>
+        <Button x:Name="btnSplitbyName" Content="PDF SZÉTVÉLASZTÁS &#xD;&#xA;       NÉV SZERINT" HorizontalAlignment="Left" VerticalAlignment="Top" 
+            Width="150" Height="45" Margin="676,255,0,0" Click="btnSplitbyName_Click" HorizontalContentAlignment="Center">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FFB84C4C"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                                    CornerRadius="10" 
+                                    BorderBrush="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- Hover effek -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#FFCC6666"/>
+                                    </Trigger>
+                                    <!-- Nyomott állapot effekt -->
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#FFE57373"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Label Content="Fájlok egyesítése:" HorizontalAlignment="Left" Margin="29,329,0,0" VerticalAlignment="Top" Foreground="White" FontSize="14"/>
+        <!-- PDF-ek listája -->
+        <ListBox x:Name="listPdfFiles" 
+            ItemsSource="{Binding PdfFiles}" 
+            DisplayMemberPath="FileName" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            Margin="197,295,0,0" 
+            Width="253" 
+            Height="108"
+            Background="#FF72A79A" 
+            Foreground="White" 
+            BorderThickness="0" 
+            FontFamily="Agency FB" 
+            FontSize="16"/>
+        <!--Egyesítés-->
+        <Button x:Name="btnMergePdf" Content="PDF EGYESÍTÉS" HorizontalAlignment="Left" VerticalAlignment="Top" 
+    Width="150" Height="46" Margin="676,326,0,0" HorizontalContentAlignment="Center" Click="btnMergePdf_Click">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#ff7b00"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="{TemplateBinding Background}" 
+                            CornerRadius="10" 
+                            BorderBrush="Transparent">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- Hover effekt -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#ffaa00"/>
+                                    </Trigger>
+                                    <!-- Nyomott állapot effekt -->
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#ffaa00"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <!--PDF hozzáadása gomb -->
+        <Button x:Name="btnAdd" Content="+" HorizontalAlignment="Left" Margin="480,276,0,0" VerticalAlignment="Top" FontFamily="Agency FB" FontWeight="Bold" FontSize="16" Height="27" Width="28" Click="btnAdd_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#44AD84"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <!-- Hover effekt -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#61C79F"/>
+                                        <!-- Világosabb zöld -->
+                                    </Trigger>
+                                    <!-- Nyomott állapot -->
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#399D72"/>
+                                        <!-- Sötétebb zöld -->
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <!-- Fájlok sorrendjének módosítása -->
+        <Button x:Name="btnMoveUp" Content="↑" HorizontalAlignment="Left" Margin="480,353,0,0" VerticalAlignment="Top" FontFamily="Agency FB" FontWeight="Bold" FontSize="16" Height="27" Width="28" Click="btnMoveUp_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#FFDC920D"/>
+                    <!-- Alap kék -->
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#ffaa00"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#ffaa00"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button x:Name="btnMoveDown" Content="↓" HorizontalAlignment="Left" Margin="480,391,0,0" VerticalAlignment="Top" FontFamily="Agency FB" FontWeight="Bold" FontSize="16" Height="26" Width="28" Click="btnMoveDown_Click">
+        <Button.Style>
+            <Style TargetType="Button">
+                    <Setter Property="Background" Value="#FFDC920D"/>
+                    <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#ffaa00"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#ffaa00"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Button.Style>
+        </Button>
+        <!-- Eltávolítás -->
+        <Button x:Name="btnRemove" Content="x" HorizontalAlignment="Left" Margin="480,314,0,0" VerticalAlignment="Top" FontFamily="Agency FB" FontWeight="Bold" FontSize="16" Height="26" Width="28" Click="btnRemove_Click">
+        <Button.Style>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#E63946"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="0">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF6F6F"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#C92E3A"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Button.Style>
+        </Button>
+    </Grid>
+</Window>
